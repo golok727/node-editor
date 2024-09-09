@@ -1,0 +1,50 @@
+{
+	"compilerOptions": {
+		"target": "ES2022",
+		"useDefineForClassFields": false,
+		"module": "ESNext",
+		"lib": ["ESNext", "DOM", "DOM.Iterable"],
+		"moduleResolution": "bundler",
+		"inlineSources": true,
+
+		"sourceMap": true,
+		"declaration": true,
+		"declarationMap": true,
+
+		"resolveJsonModule": true,
+		"verbatimModuleSyntax": true,
+		"esModuleInterop": true,
+		"noEmitOnError": true,
+
+		"allowSyntheticDefaultImports": true,
+		"isolatedModules": false,
+		"forceConsistentCasingInFileNames": false,
+
+		// lint
+		"strict": true,
+		"exactOptionalPropertyTypes": false,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitAny": true,
+		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noPropertyAccessFromIndexSignature": false,
+		"noUncheckedIndexedAccess": false,
+		"useUnknownInCatchVariables": true,
+
+		"skipLibCheck": true,
+		"incremental": true,
+		"composite": true
+	},
+	"files": [],
+	"references": [
+		{
+			"path": "./packages/node-editor"
+		},
+		{
+			"path": "./packages/playground"
+		}
+	]
+}

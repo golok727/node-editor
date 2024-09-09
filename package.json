@@ -1,0 +1,17 @@
+{
+	"name": "node-editor-monorepo",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"description": "",
+	"packageManager": "pnpm@9.4.0",
+	"scripts": {
+		"dev": "pnpm --filter playground dev"
+	},
+	"keywords": [
+		"graph",
+		"editor"
+	],
+	"author": "golok727",
+	"license": "MIT"
+}
