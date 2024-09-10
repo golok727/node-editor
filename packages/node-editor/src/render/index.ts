@@ -1,93 +1,96 @@
-import { DropShadowFilter } from "pixi-filters";
-import { Container, Graphics, Text, type PointData } from "pixi.js";
+export * from "./renderer";
+export * from "./layout";
 
-export class SimpleNodeView extends Container {
-	public radius = 10;
-	public ribbonHeight = 30;
-	public w = 300;
-	public h = 400;
-	public ribbonColor = "#2b652b";
-	public __label: string = "Thing";
-	private _graphics: Graphics;
+// import { DropShadowFilter } from "pixi-filters";
+// import { Container, Graphics, Text, type PointData } from "pixi.js";
 
-	constructor(x: number, y: number, ribbonColor?: string, label?: string) {
-		super();
-		this.x = x;
-		this.y = y;
-		this.ribbonColor = ribbonColor ?? this.ribbonColor;
-		this.__label = label ?? this.__label;
+// export class SimpleNodeView extends Container {
+// 	public radius = 10;
+// 	public ribbonHeight = 30;
+// 	public w = 300;
+// 	public h = 400;
+// 	public ribbonColor = "#2b652b";
+// 	public __label: string = "Thing";
+// 	private _graphics: Graphics;
 
-		this.interactive = true;
+// 	constructor(x: number, y: number, ribbonColor?: string, label?: string) {
+// 		super();
+// 		this.x = x;
+// 		this.y = y;
+// 		this.ribbonColor = ribbonColor ?? this.ribbonColor;
+// 		this.__label = label ?? this.__label;
 
-		this._graphics = new Graphics();
+// 		this.interactive = true;
 
-		this.addChild(this._graphics);
+// 		this._graphics = new Graphics();
 
-		this._addFilters();
+// 		this.addChild(this._graphics);
 
-		this.draw();
+// 		this._addFilters();
 
-		const text = new Text({
-			text: this.__label ?? "Thing",
-			style: {
-				fontSize: 16,
-				fill: 0xffffff,
-				align: "center",
-			},
-		});
+// 		this.draw();
 
-		text.x = 10;
-		text.y = 5;
-		text.resolution = 1;
-		this.addChild(text);
-	}
+// 		const text = new Text({
+// 			text: this.__label ?? "Thing",
+// 			style: {
+// 				fontSize: 16,
+// 				fill: 0xffffff,
+// 				align: "center",
+// 			},
+// 		});
 
-	private _addFilters() {
-		const filter = new DropShadowFilter();
-		filter.color = 0x00002a;
-		filter.offsetX = 0;
-		filter.offsetX = 0;
-		filter.alpha = 0.9;
-		this.filters = [new DropShadowFilter()];
-	}
+// 		text.x = 10;
+// 		text.y = 5;
+// 		text.resolution = 1;
+// 		this.addChild(text);
+// 	}
 
-	canDragStart(pos: PointData) {
-		// console.log(this.x, this.y);
-		// console.log(pos);
-		const ribbonTop = this.y;
-		const ribbonBottom = this.y + this.ribbonHeight;
+// 	private _addFilters() {
+// 		const filter = new DropShadowFilter();
+// 		filter.color = 0x00002a;
+// 		filter.offsetX = 0;
+// 		filter.offsetX = 0;
+// 		filter.alpha = 0.9;
+// 		this.filters = [new DropShadowFilter()];
+// 	}
 
-		return pos.x >= ribbonTop && pos.y <= ribbonBottom;
-	}
+// 	canDragStart(pos: PointData) {
+// 		// console.log(this.x, this.y);
+// 		// console.log(pos);
+// 		const ribbonTop = this.y;
+// 		const ribbonBottom = this.y + this.ribbonHeight;
 
-	draw(stroked = false) {
-		const graphics = this._graphics;
-		graphics.clear();
+// 		return pos.x >= ribbonTop && pos.y <= ribbonBottom;
+// 	}
 
-		graphics.roundRect(0, 0, this.w, this.h, this.radius);
-		graphics.fill({ color: "#303030" });
+// 	draw(stroked = false) {
+// 		const graphics = this._graphics;
+// 		graphics.clear();
 
-		this._drawRibbon(graphics);
+// 		graphics.roundRect(0, 0, this.w, this.h, this.radius);
+// 		graphics.fill({ color: "#303030" });
 
-		if (stroked) {
-			graphics.roundRect(0, 0, this.w, this.h, this.radius);
-			graphics.stroke({ width: 2, color: "#999" });
-		}
-	}
+// 		this._drawRibbon(graphics);
 
-	private _drawRibbon(graphics: Graphics) {
-		let ribbonH = this.ribbonHeight;
-		graphics.beginPath();
-		graphics.moveTo(0, ribbonH);
-		graphics.lineTo(this.w, ribbonH);
-		graphics.lineTo(this.w, this.radius);
+// 		if (stroked) {
+// 			graphics.roundRect(0, 0, this.w, this.h, this.radius);
+// 			graphics.stroke({ width: 2, color: "#999" });
+// 		}
+// 	}
 
-		graphics.quadraticCurveTo(this.w, 0, this.w - this.radius, 0);
-		graphics.lineTo(this.radius, 0);
+// 	private _drawRibbon(graphics: Graphics) {
+// 		let ribbonH = this.ribbonHeight;
+// 		graphics.beginPath();
+// 		graphics.moveTo(0, ribbonH);
+// 		graphics.lineTo(this.w, ribbonH);
+// 		graphics.lineTo(this.w, this.radius);
 
-		graphics.quadraticCurveTo(0, 0, 0, this.radius);
+// 		graphics.quadraticCurveTo(this.w, 0, this.w - this.radius, 0);
+// 		graphics.lineTo(this.radius, 0);
 
-		graphics.closePath();
-		graphics.fill(this.ribbonColor);
-	}
-}
+// 		graphics.quadraticCurveTo(0, 0, 0, this.radius);
+
+// 		graphics.closePath();
+// 		graphics.fill(this.ribbonColor);
+// 	}
+// }
