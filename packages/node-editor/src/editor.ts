@@ -1,6 +1,7 @@
+import { Bounds } from "./math";
 import type { NodeSpecification } from "./node";
 import { PresetNodes } from "./presets";
-import { Bounds, Container, type View } from "./render";
+import { Container, type View } from "./render";
 import { Renderer } from "./render/renderer";
 
 const defaultSpecification: NodeSpecification[] = [
@@ -12,17 +13,23 @@ class Rectangle implements View {
 	centered = false;
 
 	paint(cx: CanvasRenderingContext2D): void {
-		const { x, y, width, height } = this.bounds;
+		let { x, y, width, height } = this.bounds;
+		x = this.centered ? x - width / 2 : x;
+		y = this.centered ? y - height / 2 : y;
 
 		cx.beginPath();
 		cx.fillStyle = "orange";
-		cx.rect(
-			this.centered ? x - width / 2 : x,
-			this.centered ? y - height / 2 : y,
-			width,
-			height
-		);
+		cx.rect(x, y, width, height);
 		cx.fill();
+
+		cx.save();
+		cx.fillStyle = "black";
+		cx.beginPath();
+		cx.font = "bold 20px Arial";
+		cx.textAlign = "center";
+		cx.fillText("Hello World", x + width / 2, y + height / 2);
+		cx.fill();
+		cx.restore();
 	}
 }
 
