@@ -1,4 +1,4 @@
-import { Bounds } from "../../math";
+import { Bounds } from "../math";
 
 export type ContainerChildren = Container;
 export class Container<Children extends Container = ContainerChildren> {
