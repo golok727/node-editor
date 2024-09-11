@@ -40,13 +40,18 @@ export class Gfx extends Container {
 		return this;
 	}
 
-	rect(x: number, y: number, width: number, height: number) {
-		this._context.rect(x, y, width, height);
+	arc(...args: Parameters<GfxContext["arc"]>) {
+		this._context.arc(...args);
 		return this;
 	}
 
-	circle(x: number, y: number, radius: number) {
-		this._context.circle(x, y, radius);
+	rect(...args: Parameters<GfxContext["rect"]>) {
+		this._context.rect(...args);
+		return this;
+	}
+
+	circle(...args: Parameters<GfxContext["circle"]>) {
+		this._context.circle(...args);
 		return this;
 	}
 
@@ -57,7 +62,11 @@ export class Gfx extends Container {
 
 	stroke(styles?: Partial<StrokeStyles>) {
 		this._context.stroke(styles);
+		return this;
+	}
 
+	clear() {
+		this._context.clear();
 		return this;
 	}
 }

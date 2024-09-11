@@ -1,10 +1,5 @@
 import { Bounds } from "../../math";
 
-export interface View {
-	bounds: Bounds;
-	paint(cx: CanvasRenderingContext2D): void;
-}
-
 export class Container {
 	bounds: Bounds = new Bounds();
 
@@ -40,9 +35,9 @@ export class Container {
 		this.bounds.h = h;
 	}
 
-	children: View[] = [];
+	children: Container[] = [];
 
-	append(...child: View[]) {
+	append(...child: Container[]) {
 		this.children.push(...child);
 	}
 }

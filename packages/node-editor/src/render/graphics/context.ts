@@ -105,6 +105,18 @@ export class GfxContext {
 		return this;
 	}
 
+	arc(
+		x: number,
+		y: number,
+		radius: number,
+		start: number,
+		end: number,
+		counterClockwise = false
+	) {
+		this._currentPath.arc(x, y, radius, start, end, counterClockwise);
+		return this;
+	}
+
 	rect(x: number, y: number, width: number, height: number) {
 		this._currentPath.rect(x, y, width, height);
 		return this;

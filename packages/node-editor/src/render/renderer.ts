@@ -1,3 +1,4 @@
+import { Gfx } from "./graphics";
 import type { Container } from "./layout";
 
 export interface RendererSpecification {
@@ -107,7 +108,19 @@ export class Renderer {
 		cx.fillRect(0, 0, this.width, this.height);
 
 		cx.save();
-		view.children.forEach((child) => child.paint(cx));
+		view.children
+			.filter((c) => c instanceof Gfx)[0]
+			.context["_instructions"].forEach((i) => {
+				if (i.type === "fill") {
+					cx.fillStyle = i.props.fillStyles.color;
+					cx.fill(i.props.path);
+				} else {
+					cx.strokeStyle = i.props.strokeStyles.color;
+					cx.stroke(i.props.path);
+				}
+			});
+
+		// todo draw here
 		cx.restore();
 
 		cx.restore();
