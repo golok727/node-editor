@@ -1,6 +1,6 @@
 {
-	"name": "node-editor",
-	"version": "1.0.0",
+	"name": "@node-editor/draw",
+	"version": "0.0.0",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
@@ -14,8 +14,5 @@
 	"keywords": [],
 	"author": "",
 	"license": "MIT",
-	"dependencies": {
-		"zod": "^3.23.8",
-		"@node-editor/draw": "workspace:*"
-	}
+	"dependencies": {}
 }

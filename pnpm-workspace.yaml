@@ -1,3 +1,4 @@
 packages:
   - "packages/node-editor"
   - "packages/playground"
+  - "packages/draw"

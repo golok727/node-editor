@@ -45,6 +45,9 @@
 		},
 		{
 			"path": "./packages/playground"
+		},
+		{
+			"path": "./packages/draw"
 		}
 	]
 }

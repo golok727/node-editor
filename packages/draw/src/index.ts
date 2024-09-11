@@ -1,5 +1,7 @@
 export * from "./renderer";
 export * from "./layout";
+export * from "./math";
+export * from "./graphics";
 
 // import { DropShadowFilter } from "pixi-filters";
 // import { Container, Graphics, Text, type PointData } from "pixi.js";

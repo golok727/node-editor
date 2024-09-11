@@ -1,8 +1,6 @@
 import type { NodeSpecification } from "./node";
 import { PresetNodes } from "./presets";
-import { Container } from "./rendering";
-import { Gfx } from "./rendering/graphics";
-import { Renderer } from "./rendering/renderer";
+import { Container, Renderer, Gfx } from "@node-editor/draw";
 
 const defaultSpecification: NodeSpecification[] = [
 	PresetNodes.LogNode.specification,
