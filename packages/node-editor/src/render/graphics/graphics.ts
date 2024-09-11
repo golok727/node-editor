@@ -1,71 +1,63 @@
 import { Container } from "../layout";
-import { GraphicsStyles } from "./styles";
+import { GfxContext } from "./context";
+import type { FillStyles, StrokeStyles } from "./styles";
 
-export class GraphicsState {
-	style: GraphicsStyles = new GraphicsStyles();
-
-	clone(): GraphicsState {
-		const clone = new GraphicsState();
-		clone.style = this.style.clone();
-		return clone;
-	}
-}
-
-export interface Instruction {
-	type: "fill" | "stroke";
-	props: {
-		state: GraphicsState;
-		path: Path2D;
-	};
-}
-
-export class GraphicsContext {
-	private _stateStack: GraphicsState[] = [new GraphicsState()];
-
-	private _instructions: Instruction[] = [];
-
-	private _currentPath = new Path2D();
-
-	constructor() {}
-
-	save() {}
-
-	restore() {}
-
-	beginPath() {}
-
-	closePath() {}
-
-	rect() {}
-
-	circle() {}
-
-	fill() {}
-
-	stroke() {}
-}
-
-export class Graphics extends Container {
-	private _context: GraphicsContext;
+export class Gfx extends Container {
+	private _context: GfxContext;
 
 	get context() {
 		return this._context;
 	}
 
-	constructor(context = new GraphicsContext()) {
+	set fillStyle(style: Partial<FillStyles>) {
+		this._context.fillStyle = style;
+	}
+
+	set strokeStyle(style: Partial<StrokeStyles>) {
+		this._context.strokeStyle = style;
+	}
+
+	get fillStyle() {
+		return this._context.fillStyle;
+	}
+
+	get strokeStyle() {
+		return this._context.strokeStyle;
+	}
+
+	constructor(context = new GfxContext()) {
 		super();
 		this._context = context;
 	}
 
-	beginPath() {}
+	beginPath() {
+		this._context.beginPath();
+		return this;
+	}
 
-	rect() {}
+	closePath() {
+		this._context.closePath();
+		return this;
+	}
 
-	circle() {}
+	rect(x: number, y: number, width: number, height: number) {
+		this._context.rect(x, y, width, height);
+		return this;
+	}
 
-	fill() {}
+	circle(x: number, y: number, radius: number) {
+		this._context.circle(x, y, radius);
+		return this;
+	}
 
-	stroke() {}
+	fill(styles?: Partial<FillStyles>) {
+		this._context.fill(styles);
+		return this;
+	}
 
-	closePath() {}
+	stroke(styles?: Partial<StrokeStyles>) {
+		this._context.stroke(styles);
+
+		return this;
+	}
 }
