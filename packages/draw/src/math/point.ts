@@ -60,6 +60,6 @@ export class Point implements IPoint {
 	}
 
 	toString() {
-		return `[ [@rei/akari/math]: ${this.constructor.name} = { x: ${this.x}, y: ${this.y} } ]`;
+		return `[ [math]: ${this.constructor.name} = { x: ${this.x}, y: ${this.y} } ]`;
 	}
 }
