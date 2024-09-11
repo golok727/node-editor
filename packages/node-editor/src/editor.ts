@@ -34,12 +34,13 @@ export class NodeEditor {
 
 	init() {
 		const stage = new Container();
+		stage.width = this.renderer.width;
+		stage.height = this.renderer.height;
 
 		const gfx = new Gfx();
 
-		gfx.beginPath().circle(500, 250, 200).fill({ color: "red" });
-
-		gfx.beginPath().rect(300, 500, 200, 200).fill({ color: "yellow" });
+		gfx.beginPath().rect(300, 300, 200, 200).fill({ color: "yellow" });
+		gfx.beginPath().circle(400, 400, 30).fill({ color: "red" });
 
 		stage.append(gfx);
 

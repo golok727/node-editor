@@ -1,5 +1,5 @@
-import type { PointTuple, PointLike } from "./index";
-import { Point } from "./index";
+import type { PointTuple, PointLike } from "./point";
+import { Point } from "./point";
 
 export type VecLike = PointLike;
 export type VecTuple = PointTuple;
