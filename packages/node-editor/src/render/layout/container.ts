@@ -1,6 +1,7 @@
 import { Bounds } from "../../math";
 
-export class Container {
+export type ContainerChildren = Container;
+export class Container<Children extends Container = ContainerChildren> {
 	bounds: Bounds = new Bounds();
 
 	get x() {
@@ -35,9 +36,14 @@ export class Container {
 		this.bounds.h = h;
 	}
 
-	children: Container[] = [];
+	parent: Container | null = null;
 
-	append(...child: Container[]) {
-		this.children.push(...child);
+	children: Children[] = [];
+
+	append(...children: Children[]) {
+		for (const child of children) {
+			child.parent = this;
+			this.children.push(child);
+		}
 	}
 }

@@ -38,6 +38,8 @@ export class GfxContext {
 		cap: "butt",
 	};
 
+	public instructions: GfxInstruction[] = [];
+
 	private _stateStack: GfxState[] = [];
 
 	private _state: GfxState = {
@@ -45,22 +47,9 @@ export class GfxContext {
 		strokeStyle: GfxContext.defaultStrokeStyles,
 	};
 
-	private _instructions: GfxInstruction[] = [];
-
 	private _currentPath = new Path2D();
 
 	constructor() {}
-
-	public clone() {
-		const context = new GfxContext();
-		context._state = structuredClone(this._state);
-		context._instructions = structuredClone(this._instructions);
-		context._currentPath = new Path2D(this._currentPath);
-	}
-
-	public createGfx() {
-		return new Gfx(this);
-	}
 
 	set fillStyle(style: Partial<FillStyles>) {
 		this._state.fillStyle = { ...this._state.fillStyle, ...style };
@@ -78,7 +67,18 @@ export class GfxContext {
 		return this._state.strokeStyle;
 	}
 
-	save() {
+	public clone() {
+		const context = new GfxContext();
+		context._state = structuredClone(this._state);
+		context.instructions = structuredClone(this.instructions);
+		context._currentPath = new Path2D(this._currentPath);
+	}
+
+	public createGfx() {
+		return new Gfx(this);
+	}
+
+	public save() {
 		this._stateStack.push({
 			fillStyle: { ...this._state.fillStyle },
 			strokeStyle: { ...this._state.strokeStyle },
@@ -86,7 +86,7 @@ export class GfxContext {
 		return this;
 	}
 
-	restore() {
+	public restore() {
 		const state = this._stateStack.pop();
 		if (state) {
 			this._state.fillStyle = state.fillStyle;
@@ -95,17 +95,17 @@ export class GfxContext {
 		return this;
 	}
 
-	beginPath() {
+	public beginPath() {
 		this._currentPath = new Path2D();
 		return this;
 	}
 
-	closePath() {
+	public closePath() {
 		this._currentPath.closePath();
 		return this;
 	}
 
-	arc(
+	public arc(
 		x: number,
 		y: number,
 		radius: number,
@@ -117,23 +117,23 @@ export class GfxContext {
 		return this;
 	}
 
-	rect(x: number, y: number, width: number, height: number) {
+	public rect(x: number, y: number, width: number, height: number) {
 		this._currentPath.rect(x, y, width, height);
 		return this;
 	}
 
-	circle(x: number, y: number, radius: number) {
+	public circle(x: number, y: number, radius: number) {
 		this._currentPath.arc(x, y, radius, 0, Math.PI * 2);
 		return this;
 	}
 
-	clear() {
-		this._instructions.length = 0;
+	public clear() {
+		this.instructions.length = 0;
 		return this;
 	}
 
-	fill(styles?: Partial<FillStyles>) {
-		this._instructions.push({
+	public fill(styles?: Partial<FillStyles>) {
+		this.instructions.push({
 			type: "fill",
 			props: {
 				fillStyles: { ...this._state.fillStyle, ...styles },
@@ -144,8 +144,8 @@ export class GfxContext {
 		return this;
 	}
 
-	stroke(styles?: Partial<StrokeStyles>) {
-		this._instructions.push({
+	public stroke(styles?: Partial<StrokeStyles>) {
+		this.instructions.push({
 			type: "stroke",
 			props: {
 				strokeStyles: { ...this._state.strokeStyle, ...styles },

@@ -108,9 +108,10 @@ export class Renderer {
 		cx.fillRect(0, 0, this.width, this.height);
 
 		cx.save();
+
 		view.children
 			.filter((c) => c instanceof Gfx)[0]
-			.context["_instructions"].forEach((i) => {
+			.context.instructions.forEach((i) => {
 				if (i.type === "fill") {
 					cx.fillStyle = i.props.fillStyles.color;
 					cx.fill(i.props.path);
@@ -120,7 +121,6 @@ export class Renderer {
 				}
 			});
 
-		// todo draw here
 		cx.restore();
 
 		cx.restore();
