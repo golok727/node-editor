@@ -1,4 +1,4 @@
-import type { View } from "pixi.js";
+import type { Container } from "./layout";
 
 export interface RendererSpecification {
 	canvas?: HTMLCanvasElement;
@@ -10,9 +10,12 @@ export interface RendererSpecification {
 export class Renderer {
 	public cx: CanvasRenderingContext2D;
 
-	private _resolution: number;
-	private _width: number;
-	private _height: number;
+	private _resolution: number = 1;
+	private _width: number = 0;
+	private _height: number = 0;
+	private _pixelWidth: number = 0;
+	private _pixelHeight: number = 0;
+	private _autoDensity: boolean;
 
 	static defaultSpecification: RendererSpecification = {
 		width: 800,
@@ -29,32 +32,84 @@ export class Renderer {
 		return this._height;
 	}
 
+	get pixelWidth() {
+		return this._pixelWidth;
+	}
+
+	get pixelHeight() {
+		return this._pixelHeight;
+	}
+
 	get resolution() {
 		return this._resolution;
 	}
 
-	constructor(specification?: RendererSpecification) {
+	constructor(specification?: Partial<RendererSpecification>) {
 		const specs: RendererSpecification = {
 			...Renderer.defaultSpecification,
 			...specification,
 		};
 
-		this._width = specs?.width;
-		this._height = specs.height;
-		this._resolution = specs.resolution;
+		this._autoDensity = specs.autoDensity;
+
 		const canvas = specs.canvas ?? document.createElement("canvas");
 
 		const cx = canvas.getContext("2d");
 		if (!cx)
-			throw new Error("This browser does not support CanvasRenderingContext2D");
+			throw new Error(
+				"This browser does not support CanvasRenderingContext2D :(("
+			);
+
 		this.cx = cx;
+
+		this.resize(specs.width, specs.height, specs.resolution);
 	}
 
 	resize(
-		_width: number,
-		_height: number,
-		_resolution: number = this.resolution
-	) {}
+		width = this.width,
+		height = this.height,
+		resolution = this.resolution
+	) {
+		if (
+			this.width === width &&
+			this.height === height &&
+			this.resolution === resolution
+		) {
+			return false;
+		}
 
-	render(_view: View) {}
+		this._width = width;
+		this._height = height;
+		this._resolution = resolution;
+
+		this._pixelWidth = width * resolution;
+		this._pixelHeight = height * resolution;
+
+		const canvas = this.cx.canvas;
+
+		canvas.width = this._pixelWidth;
+		canvas.height = this._pixelHeight;
+
+		if (this._autoDensity) {
+			canvas.style.width = `${this._width}px`;
+			canvas.style.height = `${this._height}px`;
+		}
+
+		return true; // resized
+	}
+
+	render(view: Container) {
+		const cx = this.cx;
+		cx.save();
+		cx.scale(this.resolution, this.resolution);
+		cx.clearRect(0, 0, this.width, this.height);
+		cx.fillStyle = "black";
+		cx.fillRect(0, 0, this.width, this.height);
+
+		cx.save();
+		view.children.forEach((child) => child.paint(cx));
+		cx.restore();
+
+		cx.restore();
+	}
 }

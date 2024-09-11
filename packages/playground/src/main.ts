@@ -1,11 +1,11 @@
 import "./style.css";
 import { Editor } from "node-editor";
 
-(async () => {
-	const editor = new Editor(true);
-	await editor.init();
+const root = document.getElementById("app")!;
 
-	const root = document.getElementById("app")!;
+const editor = new Editor(true);
+root.append(editor.canvas);
 
-	root.append(editor.view);
-})();
+editor.resize(editor.canvas.offsetWidth, editor.canvas.offsetHeight);
+
+editor.init();

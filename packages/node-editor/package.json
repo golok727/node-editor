@@ -17,8 +17,6 @@
 	"dependencies": {
 		"install": "^0.13.0",
 		"npm": "^10.8.3",
-		"pixi-filters": "^6.0.5",
-		"pixi.js": "^8.3.4",
 		"zod": "^3.23.8"
 	}
 }
