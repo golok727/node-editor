@@ -13,7 +13,7 @@ class Rectangle implements View {
 	centered = false;
 
 	paint(cx: CanvasRenderingContext2D): void {
-		let { x, y, width, height } = this.bounds;
+		let { x, y, w: width, h: height } = this.bounds;
 		x = this.centered ? x - width / 2 : x;
 		y = this.centered ? y - height / 2 : y;
 
