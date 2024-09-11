@@ -1,5 +1,5 @@
-import { Gfx } from "./graphics";
-import type { FillStyles, StrokeStyles } from "./styles";
+import { Gfx } from "./index";
+import type { FillStyles, StrokeStyles } from "./index";
 
 export interface FillInstruction {
 	type: "fill";
