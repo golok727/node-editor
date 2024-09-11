@@ -232,4 +232,11 @@ export class Vec2 extends Point {
 		const y = Math.random() * (maxY - minY) + minY;
 		return new Vec2(x, y);
 	}
+
+	static like(x: number = 0, y: number = 0): VecLike {
+		const v = Object.create(null) as VecLike;
+		v.x = x;
+		v.y = y;
+		return v;
+	}
 }

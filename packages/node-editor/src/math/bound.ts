@@ -1,3 +1,5 @@
+import { Vec2, type VecLike } from "./vec2";
+
 export interface BoundData {
 	x: number;
 	y: number;
@@ -40,20 +42,21 @@ export class Bounds implements BoundData {
 		this.w = w;
 		this.h = h;
 	}
-	get bl() {
-		return [this.x, this.y + this.h];
+
+	get bl(): VecLike {
+		return Vec2.like(this.x, this.y + this.h);
 	}
 
-	get br() {
-		return [this.x + this.w, this.y + this.h];
+	get br(): VecLike {
+		return Vec2.like(this.x + this.w, this.y + this.h);
 	}
 
-	get center(): [number, number] {
-		return [this.x + this.w / 2, this.y + this.h / 2];
+	get center(): VecLike {
+		return Vec2.like(this.x + this.w / 2, this.y + this.h / 2);
 	}
 
-	set center([cx, cy]: [number, number]) {
-		const [px, py] = this.center;
+	set center({ x: cx, y: cy }: VecLike) {
+		const { x: px, y: py } = this.center;
 		this.x += cx - px;
 		this.y += cy - py;
 	}
