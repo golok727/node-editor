@@ -1,5 +1,6 @@
 import { Container } from "../layout";
 import { GraphicsStyles } from "./styles";
+
 export class GraphicsState {
 	style: GraphicsStyles = new GraphicsStyles();
 
@@ -20,29 +21,16 @@ export interface Instruction {
 
 export class GraphicsContext {
 	private _stateStack: GraphicsState[] = [new GraphicsState()];
-	private _stateIdx = 0;
 
 	private _instructions: Instruction[] = [];
 
 	private _currentPath = new Path2D();
 
-	private get state() {
-		return this._stateStack[this._stateIdx];
-	}
-
 	constructor() {}
 
-	save() {
-		const curClone = this.state.clone();
-		this._stateStack.push(curClone);
-		this._stateIdx++;
-	}
+	save() {}
 
-	restore() {
-		if (this._stateIdx === 0) return console.warn("Not enough state to pop");
-		this._stateStack.pop();
-		this._stateIdx--;
-	}
+	restore() {}
 
 	beginPath() {}
 
