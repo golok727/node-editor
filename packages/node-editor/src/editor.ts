@@ -32,8 +32,6 @@ export class NodeEditor {
 
 	init() {
 		const stage = new Container();
-		stage.width = this.renderer.width;
-		stage.height = this.renderer.height;
 
 		const gfx = new Gfx();
 

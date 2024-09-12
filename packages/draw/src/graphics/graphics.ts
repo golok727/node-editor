@@ -1,7 +1,7 @@
-import { Container } from "../layout";
 import { type FillStyles, type StrokeStyles, GfxContext } from "./index";
+import { GraphicsContainer } from "./container";
 
-export class Gfx extends Container {
+export class Gfx extends GraphicsContainer {
 	private _context: GfxContext;
 
 	get context() {
