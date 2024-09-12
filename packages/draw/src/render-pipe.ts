@@ -18,7 +18,7 @@ export class PipeSystem {
 export interface RenderPipe<R extends Renderable = Renderable> {
 	init(): void;
 
-	paint(cx: CanvasRenderingContext2D, renderable: R): void;
+	paint(renderer: Renderer, renderable: R): void;
 }
 
 export interface RenderPipeConstructor {

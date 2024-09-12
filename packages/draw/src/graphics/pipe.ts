@@ -7,7 +7,7 @@ export class GraphicsPipeline implements RenderPipe<Gfx> {
 
 	constructor(protected renderer: Renderer) {}
 
-	paint(_cx: CanvasRenderingContext2D, _renderable: Gfx): void {
+	paint(_renderer: Renderer, _renderable: Gfx): void {
 		throw new Error("Method not implemented.");
 	}
 
