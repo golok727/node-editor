@@ -1,7 +1,10 @@
 import { type FillStyles, type StrokeStyles, GfxContext } from "./index";
 import { GraphicsContainer } from "./container";
+import { createUKey } from "../utils";
 
 export class Gfx extends GraphicsContainer {
+	public readonly key = createUKey("graphics");
+
 	private _context: GfxContext;
 
 	get context() {

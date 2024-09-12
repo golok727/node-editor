@@ -1,3 +1,4 @@
+import { createUKey } from "../utils";
 import { Gfx } from "./index";
 import type { FillStyles, StrokeStyles } from "./index";
 
@@ -37,6 +38,8 @@ export class GfxContext {
 		join: "miter",
 		cap: "butt",
 	};
+
+	public readonly key = createUKey("context");
 
 	public instructions: GfxInstruction[] = [];
 
