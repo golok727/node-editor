@@ -18,11 +18,17 @@ export const DefaultRenderPipes: RenderPipeDescriptor[] = [
 
 export interface RendererSpecification {
 	canvas?: HTMLCanvasElement;
+
 	width: number;
+
 	height: number;
+
 	resolution: number;
+
 	autoDensity: boolean;
+
 	pipelines: RenderPipelineDescriptor[];
+
 	includeDefaultPipes: boolean;
 }
 
