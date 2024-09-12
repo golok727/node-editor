@@ -7,8 +7,25 @@ export class GraphicsPipeline implements RenderPipe<Gfx> {
 
 	constructor(protected renderer: Renderer) {}
 
-	paint(_renderer: Renderer, _renderable: Gfx): void {
+	begin(): void {
 		throw new Error("Method not implemented.");
+	}
+
+	end(): void {
+		throw new Error("Method not implemented.");
+	}
+
+	paint(_renderer: Renderer, _renderable: Gfx): void {
+		const cx = _renderer.cx;
+		_renderable.context.instructions.forEach((i) => {
+			if (i.type === "fill") {
+				cx.fillStyle = i.props.fillStyles.color;
+				cx.fill(i.props.path);
+			} else {
+				cx.strokeStyle = i.props.strokeStyles.color;
+				cx.stroke(i.props.path);
+			}
+		});
 	}
 
 	init(): void {}

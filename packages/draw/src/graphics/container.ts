@@ -1,5 +1,6 @@
 import { Container } from "../layout/container";
 import { Bounds, type PointLike } from "../math";
+import { intoRenderable } from "../renderable";
 import type { View } from "./../layout/view";
 import { GraphicsPipeline } from "./pipe";
 
@@ -16,3 +17,5 @@ export class GraphicsContainer extends Container implements View {
 		return false;
 	}
 }
+// this is necessary
+intoRenderable(GraphicsContainer);

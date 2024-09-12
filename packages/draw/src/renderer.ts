@@ -1,13 +1,19 @@
-import { Gfx, GraphicsPipeline } from "./graphics";
+import { GraphicsPipeline } from "./graphics";
 import type { Container } from "./layout";
+import { CustomRenderContainerPipe } from "./presets";
 import {
-	PipeSystem,
+	RenderPipeSystem,
 	type RenderPipeDescriptor,
 	type RenderPipeDescriptor as RenderPipelineDescriptor,
 } from "./render-pipe";
+import { isRenderable } from "./renderable";
 
 export const DefaultRenderPipes: RenderPipeDescriptor[] = [
 	{ impl: GraphicsPipeline, label: GraphicsPipeline.PIPE_NAME },
+	{
+		impl: CustomRenderContainerPipe,
+		label: CustomRenderContainerPipe.PIPE_NAME,
+	},
 ];
 
 export interface RendererSpecification {
@@ -19,6 +25,7 @@ export interface RendererSpecification {
 	pipelines: RenderPipelineDescriptor[];
 	includeDefaultPipes: boolean;
 }
+
 export class Renderer {
 	public cx: CanvasRenderingContext2D;
 
@@ -34,7 +41,7 @@ export class Renderer {
 
 	private _autoDensity: boolean;
 
-	private _pipelineSys: PipeSystem;
+	private _pipes: RenderPipeSystem;
 
 	static defaultSpecification: RendererSpecification = {
 		width: 800,
@@ -71,7 +78,7 @@ export class Renderer {
 			...specification,
 		};
 
-		this._pipelineSys = new PipeSystem(this);
+		this._pipes = new RenderPipeSystem(this);
 
 		this._autoDensity = specs.autoDensity;
 
@@ -90,11 +97,11 @@ export class Renderer {
 		if (specs.includeDefaultPipes)
 			specs.pipelines = [...specs.pipelines, ...DefaultRenderPipes];
 
-		specs.pipelines.forEach((pD) => this._pipelineSys.add(pD));
+		specs.pipelines.forEach((pD) => this._pipes.add(pD));
 	}
 
 	addPipe(descriptor: RenderPipelineDescriptor) {
-		this._pipelineSys.add(descriptor);
+		this._pipes.add(descriptor);
 	}
 
 	resize(
@@ -141,15 +148,9 @@ export class Renderer {
 		cx.save();
 
 		view.children
-			.filter((c) => c instanceof Gfx)[0]
-			.context.instructions.forEach((i) => {
-				if (i.type === "fill") {
-					cx.fillStyle = i.props.fillStyles.color;
-					cx.fill(i.props.path);
-				} else {
-					cx.strokeStyle = i.props.strokeStyles.color;
-					cx.stroke(i.props.path);
-				}
+			.filter((c) => isRenderable(c))
+			.forEach((thing) => {
+				this._pipes.execute(thing);
 			});
 
 		cx.restore();

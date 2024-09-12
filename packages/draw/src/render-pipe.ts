@@ -1,7 +1,7 @@
 import type { Renderable } from "./renderable";
 import type { Renderer } from "./renderer";
 
-export class PipeSystem {
+export class RenderPipeSystem {
 	private _pipelines = new Map<string, RenderPipe>();
 
 	constructor(private _renderer: Renderer) {}
@@ -12,13 +12,20 @@ export class PipeSystem {
 
 	public remove() {}
 
-	public execute() {}
+	public execute(renderable: Renderable) {
+		const pipe = this._pipelines.get(renderable.renderPipe);
+
+		if (pipe) {
+			pipe.paint(this._renderer, renderable);
+		}
+	}
 }
 
 export interface RenderPipe<R extends Renderable = Renderable> {
 	init(): void;
-
+	// begin(): void;
 	paint(renderer: Renderer, renderable: R): void;
+	// end(): void;
 }
 
 export interface RenderPipeConstructor {
