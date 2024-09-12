@@ -1,4 +1,4 @@
-import { Container } from "@node-editor/draw";
+import { Container } from "../layout/container";
 import { Bounds, type PointLike } from "../math";
 import type { View } from "./../layout/view";
 import { GraphicsPipeline } from "./pipe";

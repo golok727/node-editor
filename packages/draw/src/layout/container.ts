@@ -1,4 +1,3 @@
-export type ContainerChildren = Container;
 export class Container<Children extends Container = ContainerChildren> {
 	parent: Container | null = null;
 
@@ -11,3 +10,5 @@ export class Container<Children extends Container = ContainerChildren> {
 		}
 	}
 }
+
+export type ContainerChildren = Container;

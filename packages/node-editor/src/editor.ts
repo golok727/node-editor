@@ -13,6 +13,7 @@ export class NodeEditor {
 
 	constructor(loadDefaultSpecification = false) {
 		this.renderer = new Renderer({ resolution: 2 });
+
 		if (loadDefaultSpecification) {
 			defaultSpecification.forEach((spec) => this._specification.push(spec));
 		}

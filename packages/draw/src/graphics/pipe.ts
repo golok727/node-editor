@@ -1,8 +1,8 @@
-import type { PipeLine } from "../pipeline";
+import type { RenderPipe } from "../render-pipe";
 import type { Renderer } from "../renderer";
 import type { Gfx } from "./graphics";
 
-export class GraphicsPipeline implements PipeLine<Gfx> {
+export class GraphicsPipeline implements RenderPipe<Gfx> {
 	static PIPE_NAME = "$$_GRAPHICS_$$";
 
 	constructor(protected renderer: Renderer) {}

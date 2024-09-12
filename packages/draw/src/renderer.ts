@@ -1,5 +1,14 @@
-import { Gfx } from "./graphics";
+import { Gfx, GraphicsPipeline } from "./graphics";
 import type { Container } from "./layout";
+import {
+	PipeSystem,
+	type RenderPipeDescriptor,
+	type RenderPipeDescriptor as RenderPipelineDescriptor,
+} from "./render-pipe";
+
+export const DefaultRenderPipes: RenderPipeDescriptor[] = [
+	{ impl: GraphicsPipeline, label: GraphicsPipeline.PIPE_NAME },
+];
 
 export interface RendererSpecification {
 	canvas?: HTMLCanvasElement;
@@ -7,22 +16,33 @@ export interface RendererSpecification {
 	height: number;
 	resolution: number;
 	autoDensity: boolean;
+	pipelines: RenderPipelineDescriptor[];
+	includeDefaultPipes: boolean;
 }
 export class Renderer {
 	public cx: CanvasRenderingContext2D;
 
 	private _resolution: number = 1;
+
 	private _width: number = 0;
+
 	private _height: number = 0;
+
 	private _pixelWidth: number = 0;
+
 	private _pixelHeight: number = 0;
+
 	private _autoDensity: boolean;
+
+	private _pipelineSys: PipeSystem;
 
 	static defaultSpecification: RendererSpecification = {
 		width: 800,
 		height: 600,
 		resolution: window.devicePixelRatio || 1,
 		autoDensity: false,
+		includeDefaultPipes: true,
+		pipelines: [],
 	};
 
 	get width() {
@@ -51,6 +71,8 @@ export class Renderer {
 			...specification,
 		};
 
+		this._pipelineSys = new PipeSystem(this);
+
 		this._autoDensity = specs.autoDensity;
 
 		const canvas = specs.canvas ?? document.createElement("canvas");
@@ -64,6 +86,15 @@ export class Renderer {
 		this.cx = cx;
 
 		this.resize(specs.width, specs.height, specs.resolution);
+
+		if (specs.includeDefaultPipes)
+			specs.pipelines = [...specs.pipelines, ...DefaultRenderPipes];
+
+		specs.pipelines.forEach((pD) => this._pipelineSys.add(pD));
+	}
+
+	addPipe(descriptor: RenderPipelineDescriptor) {
+		this._pipelineSys.add(descriptor);
 	}
 
 	resize(
