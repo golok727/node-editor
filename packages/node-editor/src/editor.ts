@@ -5,6 +5,7 @@ import {
 	Renderer,
 	Gfx,
 	CustomRenderContainer,
+	GfxPath,
 } from "@node-editor/draw";
 
 const defaultSpecification: NodeSpecification[] = [
@@ -14,10 +15,30 @@ const defaultSpecification: NodeSpecification[] = [
 class Thing extends CustomRenderContainer {
 	override render(_renderer: Renderer): void {
 		const cx = _renderer.cx;
+		// test some bounding box
+		const path = new GfxPath();
+		path.rect(700, 300, 200, 300);
+
+		path.closePath();
+		path.circle(700, 300, 200);
+
+		path.closePath();
+		path.circle(300, 300, 50);
+
+		path.closePath();
+		path.ellipse(120, 200, 100, 50);
+
 		cx.save();
-		cx.fillStyle = "white";
-		cx.font = "bold 20px system-ui";
-		cx.fillText("Hello Custom Pipe", 500, 600);
+		cx.fillStyle = "hotpink";
+		cx.fill(path.path2D);
+
+		cx.beginPath();
+		cx.strokeStyle = "white";
+		cx.lineWidth = 5;
+		const { x, y, width, height } = path.bounds.rect;
+		cx.rect(x, y, width, height);
+		cx.stroke();
+
 		cx.restore();
 	}
 }

@@ -1,7 +1,13 @@
 import type { Matrix } from "./matrix";
 import { Point } from "./point";
 
-export class Box2D {
+export interface Box2DData {
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+}
+export class Box2D implements Box2DData {
 	constructor(
 		public x: number = 0,
 		public y: number = 0,
