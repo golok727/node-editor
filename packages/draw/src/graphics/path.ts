@@ -17,17 +17,33 @@ export type GfxCommandType =
 export type GfxCommand = { type: GfxCommandType; data: any[] };
 
 export class GfxPath {
-	private _commands: GfxCommand[];
+	private _commands: GfxCommand[] = [];
 
-	private _bounds = new Bounds();
+	private _bounds: Bounds = new Bounds();
 
 	private _path = new Path2D();
 
 	private _dirty = true;
 
 	constructor(path?: GfxPath) {
-		this._commands = path?._commands.slice() ?? [];
-		this._bounds = path?._bounds.clone() ?? this._bounds;
+		if (path) this.copyFrom(path);
+	}
+
+	copyFrom(other: GfxPath) {
+		this._commands = other._commands.slice();
+		this._bounds = other._bounds.clone();
+		this._path = new Path2D(other._path);
+		this._dirty = other._dirty;
+		return this;
+	}
+
+	clone() {
+		const path = new GfxPath();
+		path._commands = this._commands.slice();
+		path._bounds = this._bounds.clone();
+		path._path = new Path2D(this._path);
+		path._dirty = this._dirty;
+		return path;
 	}
 
 	get bounds() {
@@ -91,6 +107,13 @@ export class GfxPath {
 
 	moveTo(x: number, y: number) {
 		this._commands.push({ type: "moveTo", data: [x, y] });
+
+		this._dirty = true;
+		return this;
+	}
+
+	arc(...args: Parameters<CanvasRenderingContext2D["arc"]>) {
+		this._commands.push({ type: "arc", data: args });
 
 		this._dirty = true;
 		return this;

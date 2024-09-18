@@ -20,10 +20,10 @@ export class GraphicsPipeline implements RenderPipe<Gfx> {
 		_renderable.context.instructions.forEach((i) => {
 			if (i.type === "fill") {
 				cx.fillStyle = i.props.fillStyles.color;
-				cx.fill(i.props.path);
+				cx.fill(i.props.path.path2D);
 			} else {
 				cx.strokeStyle = i.props.strokeStyles.color;
-				cx.stroke(i.props.path);
+				cx.stroke(i.props.path.path2D);
 			}
 		});
 	}

@@ -1,12 +1,12 @@
 import { createUKey } from "../utils";
-import { Gfx } from "./index";
+import { Gfx, GfxPath } from "./index";
 import type { FillStyles, StrokeStyles } from "./index";
 
 export interface FillInstruction {
 	type: "fill";
 	props: {
 		fillStyles: FillStyles;
-		path: Path2D;
+		path: GfxPath;
 	};
 }
 
@@ -14,7 +14,7 @@ export interface StrokeInstruction {
 	type: "stroke";
 	props: {
 		strokeStyles: StrokeStyles;
-		path: Path2D;
+		path: GfxPath;
 	};
 }
 
@@ -50,7 +50,7 @@ export class GfxContext {
 		strokeStyle: GfxContext.defaultStrokeStyles,
 	};
 
-	private _currentPath = new Path2D();
+	private _currentPath = new GfxPath();
 
 	constructor() {}
 
@@ -74,7 +74,7 @@ export class GfxContext {
 		const context = new GfxContext();
 		context._state = structuredClone(this._state);
 		context.instructions = structuredClone(this.instructions);
-		context._currentPath = new Path2D(this._currentPath);
+		context._currentPath = this._currentPath.clone();
 	}
 
 	public createGfx() {
@@ -99,7 +99,7 @@ export class GfxContext {
 	}
 
 	public beginPath() {
-		this._currentPath = new Path2D();
+		this._currentPath = new GfxPath();
 		return this;
 	}
 
@@ -140,7 +140,7 @@ export class GfxContext {
 			type: "fill",
 			props: {
 				fillStyles: { ...this._state.fillStyle, ...styles },
-				path: new Path2D(this._currentPath),
+				path: this._currentPath.clone(),
 			},
 		});
 
@@ -152,7 +152,7 @@ export class GfxContext {
 			type: "stroke",
 			props: {
 				strokeStyles: { ...this._state.strokeStyle, ...styles },
-				path: new Path2D(this._currentPath),
+				path: this._currentPath.clone(),
 			},
 		});
 
