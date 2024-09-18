@@ -17,7 +17,7 @@ class Thing extends CustomRenderContainer {
 		const cx = _renderer.cx;
 		// test some bounding box
 		const path = new GfxPath();
-		path.rect(700, 300, 200, 300);
+		path.rect(800, 300, 200, 300);
 
 		path.closePath();
 		path.circle(700, 300, 200);

@@ -30,6 +30,10 @@ export interface RendererSpecification {
 	pipelines: RenderPipelineDescriptor[];
 
 	includeDefaultPipes: boolean;
+
+	clearOnRender: boolean;
+
+	clearColor: string | null;
 }
 
 export class Renderer {
@@ -49,6 +53,10 @@ export class Renderer {
 
 	private _pipes: RenderPipeSystem;
 
+	private _clearOnRender: boolean;
+
+	private _clearColor: string | null;
+
 	static defaultSpecification: RendererSpecification = {
 		width: 800,
 		height: 600,
@@ -56,6 +64,8 @@ export class Renderer {
 		autoDensity: false,
 		includeDefaultPipes: true,
 		pipelines: [],
+		clearOnRender: true,
+		clearColor: "#000",
 	};
 
 	get width() {
@@ -87,6 +97,8 @@ export class Renderer {
 		this._pipes = new RenderPipeSystem(this);
 
 		this._autoDensity = specs.autoDensity;
+		this._clearOnRender = specs.clearOnRender;
+		this._clearColor = specs.clearColor;
 
 		const canvas = specs.canvas ?? document.createElement("canvas");
 
@@ -147,9 +159,14 @@ export class Renderer {
 		const cx = this.cx;
 		cx.save();
 		cx.scale(this.resolution, this.resolution);
-		cx.clearRect(0, 0, this.width, this.height);
-		cx.fillStyle = "black";
-		cx.fillRect(0, 0, this.width, this.height);
+
+		if (this._clearOnRender) {
+			cx.clearRect(0, 0, this.width, this.height);
+			if (this._clearColor !== null) {
+				cx.fillStyle = "black";
+				cx.fillRect(0, 0, this.width, this.height);
+			}
+		}
 
 		cx.save();
 

@@ -10,7 +10,9 @@ export type GfxCommandType =
 	| "arc"
 	| "arcTo"
 	| "rect"
-	| "ellipse";
+	| "ellipse"
+	| "poly"
+	| "roundRect";
 
 export type GfxCommand = { type: GfxCommandType; data: any[] };
 
@@ -46,6 +48,15 @@ export class GfxPath {
 					this._path.arc(x, y, radius, 0, Math.PI * 2);
 					break;
 				}
+
+				case "poly": {
+					break;
+				}
+
+				case "roundRect": {
+					break;
+				}
+
 				default: {
 					this._callPathMethod(command);
 				}
@@ -112,6 +123,26 @@ export class GfxPath {
 
 		this._dirty = true;
 		return this;
+	}
+
+	roundRect(
+		x: number,
+		y: number,
+		width: number,
+		height: number,
+		radius: number | number[] = 0
+	) {
+		this._commands.push({
+			type: "roundRect",
+			data: [x, y, width, height, radius],
+		});
+	}
+
+	poly(points: number[], _close?: boolean) {
+		this._commands.push({
+			type: "poly",
+			data: [points],
+		});
 	}
 
 	ellipse(cx: number, cy: number, radiusX: number, radiusY: number) {
